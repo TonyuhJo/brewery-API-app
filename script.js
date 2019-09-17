@@ -76,24 +76,24 @@ function showSearchStart(){
             </section>`);
   }
     
-  function renderSearchStart(){
+function renderSearchStart(){
     console.log("rendering search start");
     
     $(".home-search").click(function(event){
       $('#search-form').removeClass("hidden");
       $('.main').addClass("hidden");
     })
-  }
+}
     
-  function formatQueryParams(params){
+function formatQueryParams(params){
     console.log("formatting query params");
     
     const queryItems = Object.keys(params)
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     return queryItems.join('&');
-  }
+}
     
-  function getBreweries(city, state, type){
+function getBreweries(city, state, type){
     console.log("getting breweries");
     
     const params = {
@@ -118,31 +118,32 @@ function showSearchStart(){
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
       });
-  }
+}
     
-  function displayResults(responseJson){
+function displayResults(responseJson){
     console.log(responseJson);
     $('.results').empty();
     
     if(responseJson.length > 0){
+  
+      $('.results').append(`<h2>Results</h2>`)
       for(let i = 0; i < responseJson.length; i++){
     
-        let address = `${responseJson.street}<br>${responseJson.city}, ${responseJson.state}<br>${responseJson.postal_code}`;
+        let address = `${responseJson[i].street}<br>${responseJson[i].city}, ${responseJson[i].state}<br>${responseJson[i].postal_code}`;
     
-        $('.results').append(`<h2>Results</h2>
-        <li><h3>${responseJson.name}</h3>
+        $('.results').append(`<li><h3>${responseJson[i].name}</h3>
         <p>Address: ${address}</p>
-        <p>Phone: ${responseJson.phone}</p>
-        <p>Check out their site at <a href="${responseJson.website_url} target='_blank'>${responseJson.website_url}</a></p>`)
+        <p>Phone: ${responseJson[i].phone}</p>
+        <p><a href="${responseJson[i].website_url}" target='_blank'>${responseJson[i].website_url}</a></p>`)
       };
     } else {
       $('.results').append(`Sorry! It doesn't look like we have any results that match your search criteria. You may want to adjust your search and try again.`)
     }
     
     $('.results').removeClass("hidden");
-  }
+}
     
-  function watchForm(){
+function watchForm(){
     console.log("watching form");
     
     $('form').submit(event => {
@@ -150,17 +151,17 @@ function showSearchStart(){
       const city = $('#js-city-search').val();
       const state = $('#js-state-search').val();
       const type = $('#js-type-search').val();
-      getBreweries(city, state, type)
+      getBreweries(city, state, type);
+      displayResults(responseJson);
     });
-  }
+}
     
-  function loadApp(){
+function loadApp(){
     showSearchStart();
     renderSearchStart();
-    displayResults();
     watchForm();
     
     console.log("app loaded");
-  }
+}
     
-  $(loadApp);
+$(loadApp);
