@@ -135,7 +135,7 @@ function displayResults(responseJson){
         $('.results').append(`<li><h3>${responseJson[i].name}</h3>
         <p>${address}</p><br>
         <p>Phone: ${responseJson[i].phone}</p>
-        <p><a href="${responseJson[i].website_url}" target='_blank' class="site-url">${responseJson[i].website_url.slice(7)}</a></p>`)
+        <p><a href="${responseJson[i].website_url}" target='_blank' class="site-url">Visit their website</a></p>`)
       };
     } else {
       $('.results').append(`Sorry! It doesn't look like we have any results that match your search criteria. You may want to adjust your search and try again.`)
