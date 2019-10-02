@@ -1,12 +1,12 @@
-function showSearchStart(){
+function showSearchStart() {
     console.log("showing search start");
-    
+
     $('.search-form').html(`<form id="search-form" class="hidden">
         <img src="images/brewHoundLogo.png" alt="Brew Hound logo" class="logo2">
         <h3>Where would you like to search?</h3>
-        <div class="city-state"><label for="search-city" class="search-city">City: </label>
+        <div class="city-state"><label for="js-city-search" class="search-city">City: </label>
         <input type="text" name="city-search" id="js-city-search" placeholder="Enter city name">
-        <label for="search-state" class="search-state">State: </label>
+        <label for="js-state-search" class="search-state">State: </label>
         <select name="state" id="js-state-search">
             <option value="alabama">AL</option>
             <option value="alaska">AK</option>
@@ -76,94 +76,94 @@ function showSearchStart(){
         <section class="results hidden">
         </section>`);
 }
-    
-function renderSearchStart(){
+
+function renderSearchStart() {
     console.log("rendering search start");
-    
-    $(".home-search").click(function(event){
-      $('#search-form').removeClass("hidden");
-      $('.main').addClass("hidden");
+
+    $(".home-search").click(function(event) {
+        $('#search-form').removeClass("hidden");
+        $('.main').addClass("hidden");
     })
 }
-    
-function formatQueryParams(params){
+
+function formatQueryParams(params) {
     console.log("formatting query params");
-    
+
     const queryItems = Object.keys(params)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     return queryItems.join('&');
 }
-    
-function getBreweries(city, state, type){
+
+function getBreweries(city, state, type) {
     console.log("getting breweries");
-    
+
     const params = {
-      by_city: city,
-      by_state: state,
-      by_type: type
+        by_city: city,
+        by_state: state,
+        by_type: type
     };
-    
+
     const queryString = formatQueryParams(params);
     const url = 'https://api.openbrewerydb.org/breweries?' + queryString;
-    
+
     console.log(url);
-    
+
     fetch(url)
-      .then(response => {
-        if(response.ok){
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
-      .then(responseJson => displayResults(responseJson))
-      .catch(err => {
-        $('#js-error-message').text(`Something went wrong: ${err.message}`);
-      });
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseJson => displayResults(responseJson))
+        .catch(err => {
+            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
 }
-    
-function displayResults(responseJson){
+
+function displayResults(responseJson) {
     console.log(responseJson);
     $('.results').empty();
-    
-    if(responseJson.length > 0){
-  
-      $('.results').append(`<h2 class="results-start">Results</h2>`)
-      for(let i = 0; i < responseJson.length; i++){
-    
-        let address = `${responseJson[i].street}<br>${responseJson[i].city}, ${responseJson[i].state}<br>${responseJson[i].postal_code}`;
-    
-        $('.results').append(`<li><h3>${responseJson[i].name}</h3>
+
+    if (responseJson.length > 0) {
+
+        $('.results').append(`<h2 class="results-start">Results</h2>`)
+        for (let i = 0; i < responseJson.length; i++) {
+
+            let address = `${responseJson[i].street}<br>${responseJson[i].city}, ${responseJson[i].state}<br>${responseJson[i].postal_code}`;
+
+            $('.results').append(`<li><h3>${responseJson[i].name}</h3>
         <p>${address}</p><br>
         <p>Phone: ${responseJson[i].phone}</p>
         <p><a href="${responseJson[i].website_url}" target='_blank' class="site-url">Visit their website</a></p>`)
-      };
+        };
     } else {
-      $('.results').append(`<p class="error-message">Sorry! It doesn't look like we have any results that match your search criteria. You may want to adjust your search and try again.</p>`)
+        $('.results').append(`<p class="error-message">Sorry! It doesn't look like we have any results that match your search criteria. You may want to adjust your search and try again.</p>`)
     }
-    
+
     $('.results').removeClass("hidden");
     $('p').removeClass("hidden");
 }
-    
-function watchForm(){
+
+function watchForm() {
     console.log("watching form");
-    
+
     $('form').submit(event => {
-      event.preventDefault();
-      const city = $('#js-city-search').val();
-      const state = $('#js-state-search').val();
-      const type = $('#js-type-search').val();
-      getBreweries(city, state, type);
-      displayResults(responseJson);
+        event.preventDefault();
+        const city = $('#js-city-search').val();
+        const state = $('#js-state-search').val();
+        const type = $('#js-type-search').val();
+        getBreweries(city, state, type);
+        displayResults(responseJson);
     });
 }
-    
-function loadApp(){
+
+function loadApp() {
     showSearchStart();
     renderSearchStart();
     watchForm();
-    
+
     console.log("app loaded");
 }
-    
+
 $(loadApp);
