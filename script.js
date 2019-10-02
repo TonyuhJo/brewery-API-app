@@ -138,10 +138,11 @@ function displayResults(responseJson){
         <p><a href="${responseJson[i].website_url}" target='_blank' class="site-url">Visit their website</a></p>`)
       };
     } else {
-      $('.results').append(`Sorry! It doesn't look like we have any results that match your search criteria. You may want to adjust your search and try again.`)
+      $('.results').append(`<p class="error-message">Sorry! It doesn't look like we have any results that match your search criteria. You may want to adjust your search and try again.</p>`)
     }
     
     $('.results').removeClass("hidden");
+    $('p').removeClass("hidden");
 }
     
 function watchForm(){
