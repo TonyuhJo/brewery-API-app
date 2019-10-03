@@ -154,7 +154,6 @@ function watchForm() {
         const state = $('#js-state-search').val();
         const type = $('#js-type-search').val();
         getBreweries(city, state, type);
-        displayResults(responseJson);
     });
 }
 
