@@ -1,6 +1,4 @@
 function showSearchStart() {
-    console.log("showing search start");
-
     $('.search-form').html(`<form id="search-form" class="hidden">
         <img src="images/brewHoundLogo.png" alt="Brew Hound logo" class="logo2">
         <h3>Where would you like to search?</h3>
@@ -78,8 +76,6 @@ function showSearchStart() {
 }
 
 function renderSearchStart() {
-    console.log("rendering search start");
-
     $(".home-search").click(function(event) {
         $('#search-form').removeClass("hidden");
         $('.main').addClass("hidden");
@@ -87,16 +83,12 @@ function renderSearchStart() {
 }
 
 function formatQueryParams(params) {
-    console.log("formatting query params");
-
     const queryItems = Object.keys(params)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     return queryItems.join('&');
 }
 
 function getBreweries(city, state, type) {
-    console.log("getting breweries");
-
     const params = {
         by_city: city,
         by_state: state,
@@ -146,8 +138,6 @@ function displayResults(responseJson) {
 }
 
 function watchForm() {
-    console.log("watching form");
-
     $('form').submit(event => {
         event.preventDefault();
         const city = $('#js-city-search').val();
@@ -161,8 +151,6 @@ function loadApp() {
     showSearchStart();
     renderSearchStart();
     watchForm();
-
-    console.log("app loaded");
 }
 
 $(loadApp);
